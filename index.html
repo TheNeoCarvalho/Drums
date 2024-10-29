@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bateria Virtual</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .drum-kit {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .drum-pad {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100px;
+            height: 100px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .drum-pad:hover {
+            background-color: #0056b3;
+        }
+
+        .drum-pad:active,
+        .drum-pad.active,
+        .drum-pad:hover {
+            transform: scale(0.90);
+            background-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bateria Virtual</h1>
+    <div class="drum-kit">
+        <button class="drum-pad" data-sound="kick">
+            Kick
+            <span>(A)</span>
+        </button>
+        <button class="drum-pad" data-sound="snare">
+            Snare
+            <span>(S)</span>
+        </button>
+        <button class="drum-pad" data-sound="hihat">
+            Hi-Hat 
+            <span>(D)</span>
+        </button>
+        <button class="drum-pad" data-sound="tom1">
+            Tom 1 
+            <span>(K)</span>
+        </button>
+        <button class="drum-pad" data-sound="tom2">
+            Tom 2 
+            <span>(L)</span>
+        </button>
+        <button class="drum-pad" data-sound="crash">
+            Crash 
+            <span>(Ç)</span>
+        </button>
+    </div>
+
+    <script>
+        const drumPads = document.querySelectorAll(".drum-pad");
+        const teclasMapeadas = {
+            "a": "kick",
+            "s": "snare",
+            "d": "hihat",
+            "k": "tom1",
+            "l": "tom2",
+            "ç": "crash"
+        };
+
+        function playSound(sound) {
+            const audio = new Audio(`sounds/${sound}.wav`);
+            audio.play();
+        }
+
+        document.addEventListener("keydown", (event) => {
+            const sound = teclasMapeadas[event.key.toLowerCase()];
+            if (sound) {
+                playSound(sound);
+                efeito(sound);
+            }
+        });
+
+        function efeito(sound) {
+            const button = document.querySelector(`.drum-pad[data-sound="${sound}"]`);
+            if (button) {
+                button.classList.add("active");
+                setTimeout(() => button.classList.remove("active"), 100);
+            }
+        }
+    </script>
+</body>
+
+</html>
